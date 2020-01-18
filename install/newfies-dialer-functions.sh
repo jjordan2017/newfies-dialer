@@ -25,7 +25,7 @@
 
 # Set branch to install develop / default: master
 if [ -z "${BRANCH}" ]; then
-    BRANCH='installchanges-20200116'
+    BRANCH='update-lua-dependencies'
 fi
 
 DATETIME=$(date +"%Y%m%d%H%M%S")
@@ -309,7 +309,10 @@ func_install_dependencies(){
     mv luarocks-* luarocks
     cd luarocks
     ./configure
-    make
+    #receive a message that to install luarocks to /usr/local you needed to type in make build and make install. the
+    #original script  just included make.  Added make build and make install to the script
+    make build
+    make install
     make bootstrap
 
     #Check if Luarocks
@@ -337,19 +340,23 @@ func_install_dependencies(){
     esac
 
     #Install Lua dependencies
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasocket 3.0rc1-2
     luarocks-5.2 install luasec  # install luasec to install inspect via https
-    luarocks-5.2 install luasocket
-    luarocks-5.2 install lualogging
-    luarocks-5.2 install loop
-    luarocks-5.2 install md5 1.2-1
-    luarocks-5.2 install luafilesystem
-    luarocks-5.2 install luajson 1.3.2-1
-    luarocks-5.2 install inspect
-    luarocks-5.2 install redis-lua
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lualogging 1.3.0-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks loop 2.3beta-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks md5 1.2-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luafilesystem 1.6.2-2
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lunit 0.5-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lpeg 0.12-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luajson 1.3.2-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks inspect 2.0-1
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks redis-lua 2.0.4-1
     #Issue with last version of lpeg - lua libs/tag_replace.lua will seg fault
     #Pin the version 0.10.2-1
-    luarocks-5.2 remove lpeg --force
-    luarocks-5.2 install http://rocks.moonscript.org/manifests/luarocks/lpeg-0.12-1.rockspec
+    #luajson requires lunit and lpeg commenting out bottom two lines to test moving the
+    #packages before initiating the luajson install request
+    #luarocks-5.2 remove lpeg --force
+    #luarocks-5.2 install http://rocks.moonscript.org/manifests/luarocks/lpeg-0.12-1.rockspec
 
     #luarocks-5.2 install lua-cmsgpack
     cd /usr/src/
@@ -762,6 +769,8 @@ func_django_newfiesdialer_install(){
     #Prepare Django DB / Migrate / Create User ...
     cd $INSTALL_DIR/
     python manage.py syncdb --noinput
+    #received error that indication there were no migrations to apply. added to see if this fixes the errors thrown during installation
+    python manage.py makemigrations 
     python manage.py migrate dialer_settings
     python manage.py migrate dialer_contact
     python manage.py migrate sms
@@ -918,7 +927,8 @@ func_install_rabbitmq() {
             if [ $chk -lt 1 ] ; then
                 echo "Setup new sources.list entries for RabbitMQ"
                 echo "deb http://www.rabbitmq.com/debian/ testing main" > /etc/apt/sources.list.d/rabbitmq.list
-                wget --no-check-certificate --quiet -O - http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | apt-key add -
+                #updated the location of the rabbitmq-signing-key 2020-01-17
+                wget --no-check-certificate --quiet -O - https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-signing-key-public.asc | apt-key add -
             fi
             apt-get update
             apt-get --force-yes install rabbitmq-server

@@ -20,7 +20,7 @@
 
 # Set branch to install develop / default: master
 if [ -z "${BRANCH}" ]; then
-    BRANCH='installchanges-20200116'
+    BRANCH='update-lua-dependencies'
 fi
 
 FS_CONF_PATH=https://raw.githubusercontent.com/jjordan2017/newfies-dialer/$BRANCH/install/freeswitch-conf
