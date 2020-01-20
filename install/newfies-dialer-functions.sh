@@ -927,8 +927,8 @@ func_install_rabbitmq() {
             if [ $chk -lt 1 ] ; then
                 echo "Setup new sources.list entries for RabbitMQ"
                 echo "deb http://www.rabbitmq.com/debian/ testing main" > /etc/apt/sources.list.d/rabbitmq.list
-                #updated the location of the rabbitmq-signing-key 2020-01-17
-                wget --no-check-certificate --quiet -O - https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-signing-key-public.asc | apt-key add -
+                #updated the location of the rabbitmq-signing-key 2020-01-20
+                wget --no-check-certificate --quiet -O - https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | apt-key add -
             fi
             apt-get update
             apt-get --force-yes install rabbitmq-server
