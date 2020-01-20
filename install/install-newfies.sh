@@ -24,6 +24,9 @@
 #
 
 # Set branch to install develop / default: master
+ARCH=$(uname -m)
+DIST='DEBIAN'
+
 if [ -z "${BRANCH}" ]; then
     BRANCH='update-lua-dependencies'
 fi
