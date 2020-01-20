@@ -340,7 +340,7 @@ func_install_dependencies(){
     esac
 
     #Install Lua dependencies
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasocket 3.0rc1-2
+    luarocks-5.2 install --server=https://luarocks.org luasocket 3.0rc1-2
     luarocks-5.2 install luasec  # install luasec to install inspect via https
     luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lualogging 1.3.0-1
     luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks loop 2.3beta-1
