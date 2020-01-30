@@ -33,7 +33,7 @@ CURRENT_PATH=$PWD
 KERNELARCH="x86_64"
 # Valid Freeswitch versions are : v1.2.stable
 #FS_VERSION=v1.2.stable
-FS_VERSION=v1.4
+FS_VERSION=v1.6
 SCRIPT_NOTICE="This script is only intended to run on Debian 64 bit 7.X or 8.X"
 
 # Identify Linux Distribution type
