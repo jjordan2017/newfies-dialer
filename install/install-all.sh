@@ -26,7 +26,7 @@
 
 # Set branch to install develop / default: master
 if [ -z "${BRANCH}" ]; then
-    BRANCH='update-lua-dependencies'
+    BRANCH='master'
 fi
 
 if [ -z "${INSTALL_FS}" ]; then

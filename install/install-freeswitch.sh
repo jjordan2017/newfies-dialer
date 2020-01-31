@@ -20,7 +20,7 @@
 
 # Set branch to install develop / default: master
 if [ -z "${BRANCH}" ]; then
-    BRANCH='update-lua-dependencies'
+    BRANCH='master'
 fi
 
 FS_CONF_PATH=https://raw.githubusercontent.com/jjordan2017/newfies-dialer/$BRANCH/install/freeswitch-conf
@@ -33,7 +33,7 @@ CURRENT_PATH=$PWD
 KERNELARCH="x86_64"
 # Valid Freeswitch versions are : v1.2.stable
 #FS_VERSION=v1.2.stable
-FS_VERSION=v1.6
+FS_VERSION=v1.4
 SCRIPT_NOTICE="This script is only intended to run on Debian 64 bit 7.X or 8.X"
 
 # Identify Linux Distribution type
@@ -77,7 +77,7 @@ func_install_deps() {
             apt-get -y install autoconf2.64 automake autotools-dev binutils bison build-essential cpp curl flex gcc libaudiofile-dev libc6-dev libexpat1 libexpat1-dev mcrypt libmcrypt-dev libnewt-dev libpopt-dev libsctp-dev libx11-dev libxml2 libxml2-dev lksctp-tools lynx m4 openssl ssl-cert zlib1g-dev
 
             apt-get -y install autoconf automake devscripts gawk g++ git-core 'libjpeg-dev|libjpeg62-turbo-dev' libncurses5-dev 'libtool-bin|libtool' make python-dev gawk pkg-config libtiff5-dev libperl-dev libgdbm-dev libdb-dev gettext libssl-dev libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev libmp3lame-dev
-
+            
             if [ $DEBIANCODE != "jessie" ]; then
                 #DEBIAN7
                 apt-get -y install libgnutls-dev libtiff4-dev libtiff4

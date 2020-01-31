@@ -28,7 +28,7 @@ ARCH=$(uname -m)
 DIST='DEBIAN'
 
 if [ -z "${BRANCH}" ]; then
-    BRANCH='update-lua-dependencies'
+    BRANCH='master'
 fi
 
 #Get Scripts dependencies
