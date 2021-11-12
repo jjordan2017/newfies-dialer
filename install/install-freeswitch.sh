@@ -50,9 +50,9 @@ fi
 # Make sure the ca certificates are update before the installation of freeswitch
 apt-get install --reinstall ca-certificates
 
-mkdir /usr/local/share/ca-certificates/cacert.org
-wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
-update-ca-certificates
+sudo mkdir /usr/local/share/ca-certificates/cacert.org
+sudo wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
+sudo update-ca-certificates
 
 clear
 echo ""
@@ -126,7 +126,7 @@ func_install_fs_sources() {
     cd $FS_BASE_PATH
     rm -rf freeswitch
     # dont use depth :  --depth=1 as we wont be able to checkout
-    git clone --branch=$FS_VERSION https://freeswitch.org/stash/scm/fs/freeswitch.git --depth=1
+    git clone --branch=$FS_VERSION https://github.com/signalwire/freeswitch.git --depth=1
     cd $FS_BASE_PATH/freeswitch
     # git checkout $FS_VERSION
 
