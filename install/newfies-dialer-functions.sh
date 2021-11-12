@@ -217,6 +217,14 @@ func_install_dependencies(){
             curl -sL https://deb.nodesource.com/setup | bash -
             sudo apt-get install -y nodejs
 
+            # check to see if nodejs 8.x is installed
+            chk2=`nodejs --version`
+
+            if [ $chk2 != "v8.17.0" ]; then
+                echo "Invalid nodejs version! Must be >= 8.17.0"
+                exit 1
+            fi
+
             # cd /usr/src/ ; git clone https://github.com/joyent/node.git
             # # 'git tag' shows all available versions: select the latest stable.
             # cd node ; git checkout v0.10.26
