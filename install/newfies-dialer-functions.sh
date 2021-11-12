@@ -177,9 +177,9 @@ func_install_dependencies(){
                 echo "deb http://ftp.us.debian.org/debian $DEBIANCODE-backports main" >> /etc/apt/sources.list
             fi
             #Used by PostgreSQL
-            echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-            wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add -
-            apt-get update
+            #This code will need to be uncommented when it is ported to Stretch
+            # echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+            # wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add -
 
             export LANGUAGE=en_US.UTF-8
             export LANG=en_US.UTF-8
@@ -195,10 +195,11 @@ func_install_dependencies(){
             apt-get -y install hdparm htop vim
             update-alternatives --set editor /usr/bin/vim.tiny
 
+            #PostgreSQL 9.3 has been removed from all repositories so we need to install version 9.4
             #Install Postgresql
             apt-get -y install libpq-dev
-            apt-get -y install postgresql-9.3 postgresql-contrib-9.3
-            pg_createcluster 9.3 main --start
+            apt-get -y install postgresql-9.4 postgresql-contrib-9.4
+            pg_createcluster 9.4 main --start
             /etc/init.d/postgresql start
 
             apt-get -y install python-software-properties
@@ -334,19 +335,46 @@ func_install_dependencies(){
     esac
 
     #Install Lua dependencies
-    luarocks-5.2 install luasec  # install luasec to install inspect via https
-    luarocks-5.2 install luasocket
-    luarocks-5.2 install lualogging
-    luarocks-5.2 install loop
-    luarocks-5.2 install md5 1.2-1
-    luarocks-5.2 install luafilesystem
-    luarocks-5.2 install luajson 1.3.2-1
-    luarocks-5.2 install inspect
-    luarocks-5.2 install redis-lua
-    #Issue with last version of lpeg - lua libs/tag_replace.lua will seg fault
-    #Pin the version 0.10.2-1
-    luarocks-5.2 remove lpeg --force
-    luarocks-5.2 install http://rocks.moonscript.org/manifests/luarocks/lpeg-0.12-1.rockspec
+    echo "-------------------------------"
+    echo "Installing LuaSocket and LuaSec"
+    echo "-------------------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasec  # install luasec to install inspect via https
+    echo "---------------------"
+    echo "Installing LuaLogging"
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lualogging 1.3.0-1
+    echo "---------------------"
+    echo "Installing Loop"
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks loop 2.3beta-1
+    echo "---------------------"
+    echo "Installing md5       "
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks md5 1.2-1
+    echo "------------------------"
+    echo "Installing LuaFilesystem"
+    echo "------------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luafilesystem 1.6.2-2
+    echo "---------------------"
+    echo "Installing Lunit     "
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lunit 0.5-1
+    echo "---------------------"
+    echo "Installing Lpeg      "
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lpeg 0.12-1
+    echo "---------------------"
+    echo "Installing Luajson   "
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luajson 1.3.2-1
+    echo "---------------------"
+    echo "Installing Inspect   "
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks inspect 2.0-1
+    echo "---------------------"
+    echo "Installing redis-lua "
+    echo "---------------------"
+    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks redis-lua 2.0.4-1
 
     #luarocks-5.2 install lua-cmsgpack
     cd /usr/src/
