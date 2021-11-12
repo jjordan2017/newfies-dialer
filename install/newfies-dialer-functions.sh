@@ -174,7 +174,7 @@ func_install_dependencies(){
             if [ $chk -lt 1 ] ; then
                 echo "Setup new sources.list entries"
                 #Used by Node.js
-                echo "deb http://ftp.us.debian.org/debian $DEBIANCODE-backports main" >> /etc/apt/sources.list
+                echo "deb deb http://archive.debian.org/debian $DEBIANCODE-backports main" >> /etc/apt/sources.list
             fi
             #Used by PostgreSQL
             #This code will need to be uncommented when it is ported to Stretch
