@@ -47,6 +47,13 @@ else
     exit 1
 fi
 
+# Make sure the ca certificates are update before the installation of freeswitch
+apt-get install --reinstall ca-certificates
+
+mkdir /usr/local/share/ca-certificates/cacert.org
+wget -P /usr/local/share/ca-certificates/cacert.org http://www.cacert.org/certs/root.crt http://www.cacert.org/certs/class3.crt
+update-ca-certificates
+
 clear
 echo ""
 echo "FreeSWITCH will be installed!"
