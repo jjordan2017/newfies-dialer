@@ -217,7 +217,7 @@ func_install_dependencies(){
 
             #Install Node.js & NPM
             apt-get -y install nodejs-legacy
-            curl -sL https://deb.nodesource.com/setup | bash -
+            curl -sL https://deb.nodesource.com/setup_8.x | bash -
             sudo apt-get install -y nodejs
 
             # check to see if nodejs 8.x is installed
