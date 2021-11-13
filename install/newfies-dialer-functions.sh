@@ -175,6 +175,9 @@ func_install_dependencies(){
                 echo "Setup new sources.list entries"
                 #Used by Node.js
                 echo "deb http://archive.debian.org/debian $DEBIANCODE-backports main" >> /etc/apt/sources.list
+                echo "Installing the public key for the jessie-backports archive"
+                echo ""
+                sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
             fi
             #Used by PostgreSQL
             #This code will need to be uncommented when it is ported to Stretch
