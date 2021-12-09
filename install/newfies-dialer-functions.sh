@@ -170,15 +170,16 @@ func_install_dependencies(){
 
     case $DIST in
         'DEBIAN')
-            chk=`grep "backports" /etc/apt/sources.list|wc -l`
-            if [ $chk -lt 1 ] ; then
-                echo "Setup new sources.list entries"
+            #The backports for Jessie has been deprecated and will no longer allow the nodejs installation to proceed
+            #chk=`grep "backports" /etc/apt/sources.list|wc -l`
+            #if [ $chk -lt 1 ] ; then
+            #    echo "Setup new sources.list entries"
                 #Used by Node.js
-                echo "deb http://archive.debian.org/debian $DEBIANCODE-backports main" >> /etc/apt/sources.list
-                echo "Installing the public key for the jessie-backports archive"
-                echo ""
-                sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
-            fi
+            #    echo "deb http://archive.debian.org/debian $DEBIANCODE-backports main" >> /etc/apt/sources.list
+            #    echo "Installing the public key for the jessie-backports archive"
+            #    echo ""
+            #    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
+            #fi
             #Used by PostgreSQL
             #This code will need to be uncommented when it is ported to Stretch
             # echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
@@ -216,6 +217,7 @@ func_install_dependencies(){
             apt-get -y install flite
 
             #Install Node.js & NPM
+            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
             apt-get -y install nodejs-legacy
             curl -sL https://deb.nodesource.com/setup_8.x | bash -
             sudo apt-get install -y nodejs
@@ -406,9 +408,24 @@ func_install_dependencies(){
     #add cURL.so to lua libs
     cp cURL.so /usr/local/lib/lua/5.2/
 
-    echo ""
-    echo "easy_install -U setuptools pip distribute"
-    easy_install -U setuptools pip distribute
+    #echo ""
+    #echo "easy_install -U setuptools pip distribute"
+    #easy_install -U setuptools pip distribute
+
+    # As Jessie is deprecated we need to use a specific version of pip
+    echo "Installing pip v20.3.4"
+    pip install pip==20.3.4
+
+    # make sure pip is not hashed to /usr/bin/pip where 1.5.6 is installed
+    echo "setting up pip to use the correct directory..."
+    type pip
+    hash -d pip
+
+    echo "easy_install -U setuptools distribute"
+    pip install -U setuptools
+
+    echo "installing distribute"
+    pip install distribute
 
     # install Bower
     npm install -g bower
