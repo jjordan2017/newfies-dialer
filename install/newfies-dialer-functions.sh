@@ -814,6 +814,10 @@ func_celery_supervisor(){
 func_django_newfiesdialer_install(){
     #Prepare Django DB / Migrate / Create User ...
     cd $INSTALL_DIR/
+    echo "Comment out __metaclass__ from /usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/picklefield/fields.py (approximately line 79)"
+    echo ""
+    echo "Press any key to continue"
+    read TEMP
     python manage.py syncdb --noinput
     python manage.py migrate dialer_settings
     python manage.py migrate dialer_contact
