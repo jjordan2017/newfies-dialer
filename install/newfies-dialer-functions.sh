@@ -817,6 +817,8 @@ func_django_newfiesdialer_install(){
     echo "Comment out __metaclass__ from /usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/picklefield/fields.py (approximately line 79)"
     echo ""
     echo "Replace from django.utils import simplejson as json to import json in /usr/share/virtualencs/newfies-dialer/lib/python2.7/site-packages/dajax/core.py"
+    echo ""
+    echo "Replace from django.conf.urls.defaults import * to from django.conf.urls import * in /usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/urls.py"
     echo "Press any key to continue"
     read TEMP
     python manage.py syncdb --noinput
