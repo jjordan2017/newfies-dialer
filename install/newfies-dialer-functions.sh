@@ -815,7 +815,7 @@ func_django_newfiesdialer_install(){
     #Prepare Django DB / Migrate / Create User ...
     cd $INSTALL_DIR/
     #There are several application files that need to be changed prior to initiating the syncdb in order for the installation to continue...
-    sed -e "__metaclass__/ s/^#*/#/" -i "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/picklefield/fields/py"
+    sed -e "__metaclass__/ s/^#*/#/" -i "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/picklefield/fields.py"
     sed -i "s/from django.conf.urls.defaults import */from django.conf.urls import */g" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/urls.py"
     sed -i "2i import json" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/views.py"
     sed -i "/from django.utils import simplejson" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxince/views.py"
