@@ -814,15 +814,12 @@ func_celery_supervisor(){
 func_django_newfiesdialer_install(){
     #Prepare Django DB / Migrate / Create User ...
     cd $INSTALL_DIR/
-    echo "Comment out __metaclass__ from /usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/picklefield/fields.py (approximately line 79)"
-    echo ""
-    echo "Replace from django.utils import simplejson as json to import json in /usr/share/virtualencs/newfies-dialer/lib/python2.7/site-packages/dajax/core.py"
-    echo ""
-    echo "Replace from django.conf.urls.defaults import * to from django.conf.urls import * in /usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/urls.py"
-    echo ""
-    echo "Insert import json on line 2 and comment out from django.utils import simplejson in /usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/views.py"
-    echo "Press any key to continue"
-    read TEMP
+    #There are several application files that need to be changed prior to initiating the syncdb in order for the installation to continue...
+    sed -e "__metaclass__/ s/^#*/#/" -i "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/picklefield/fields/py"
+    sed -i "s/from django.conf.urls.defaults import */from django.conf.urls import */g" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/urls.py"
+    sed -i "2i import json" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/views.py"
+    sed -i "/from django.utils import simplejson" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxince/views.py"
+
     python manage.py syncdb --noinput
     python manage.py migrate dialer_settings
     python manage.py migrate dialer_contact
