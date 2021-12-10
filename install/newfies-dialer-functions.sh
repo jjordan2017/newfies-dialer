@@ -819,6 +819,8 @@ func_django_newfiesdialer_install(){
     sed -i "s/from django.conf.urls.defaults import */from django.conf.urls import */g" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/urls.py"
     sed -i "2i import json" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/views.py"
     sed -i "/from django.utils import simplejson/d" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajaxice/views.py"
+    sed -i "2i import json" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajax/core.py"
+    sed -i "/from django.utils import simplejson/d" "/usr/share/virtualenvs/newfies-dialer/lib/python2.7/site-packages/dajax/core.py"
 
     python manage.py syncdb --noinput
     python manage.py migrate dialer_settings
