@@ -25,3 +25,4 @@ tablib==0.10.0
 requests==2.7.0
 lockfile==0.10.2
 librabbitmq==1.6.1
+importlib==1.0.4
