@@ -182,8 +182,8 @@ func_install_dependencies(){
             #fi
             #Used by PostgreSQL
             #This code will need to be uncommented when it is ported to Stretch
-            # echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-            # wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add -
+            echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+            wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add -
 
             export LANGUAGE=en_US.UTF-8
             export LANG=en_US.UTF-8
@@ -199,18 +199,18 @@ func_install_dependencies(){
             apt-get -y install hdparm htop vim
             update-alternatives --set editor /usr/bin/vim.tiny
 
-            #PostgreSQL 9.3 has been removed from all repositories so we need to install version 9.4
+            #PostgreSQL 9.4 has been removed from all repositories so we need to install version 16
             #Install Postgresql
             apt-get -y install libpq-dev
-            apt-get -y install postgresql-9.4 postgresql-contrib-9.4
-            pg_createcluster 9.4 main --start
+            apt-get -y install postgresql-16 postgresql-contrib-16
+            pg_createcluster 16 main --start
             /etc/init.d/postgresql start
 
             apt-get -y install python-software-properties
             apt-get -y install python-setuptools python-dev build-essential
             apt-get -y install nginx supervisor
             apt-get -y install git-core mercurial gawk cmake
-            apt-get -y install python-pip
+            apt-get -y install python3-pip
             # for audiofile convertion
             apt-get -y install libsox-fmt-mp3 libsox-fmt-all mpg321
             #repeat flite install in case FS is on a different server
@@ -218,14 +218,14 @@ func_install_dependencies(){
 
             #Install Node.js & NPM
             sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
-            apt-get -y install nodejs-legacy
-            curl -sL https://deb.nodesource.com/setup_8.x | bash -
+            #apt-get -y install nodejs-legacy
+            curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
             sudo apt-get install -y nodejs
 
             # check to see if nodejs 8.x is installed
             chk2=`nodejs --version`
 
-            if [ $chk2 != "v8.17.0" ]; then
+            if [ $chk2 != "v18.19.1" ]; then
                 echo "Invalid nodejs version! Must be >= 8.17.0"
                 exit 1
             fi
