@@ -226,7 +226,7 @@ func_install_dependencies(){
             chk2=`nodejs --version`
 
             if [ $chk2 != "v18.19.1" ]; then
-                echo "Invalid nodejs version! Must be >= 8.17.0"
+                echo "Invalid nodejs version! Must be >= 18.19.1"
                 exit 1
             fi
 
@@ -347,11 +347,14 @@ func_install_dependencies(){
         ;;
     esac
 
+    #Need to find a way to include the lua rocks for the items below and store them in the git repository
+    #because there is no longer a source to download them from.
     #Install Lua dependencies
     echo "-------------------------------"
     echo "Installing LuaSocket and LuaSec"
     echo "-------------------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasec  # install luasec to install inspect via https
+    #luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasec  # install luasec to install inspect via https
+    luarocks-5.2 install --only-server=/usr/src/rocks luasec-0.9-1  #install luasec to install inspect via https
     echo "---------------------"
     echo "Installing LuaLogging"
     echo "---------------------"
