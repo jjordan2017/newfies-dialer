@@ -354,6 +354,7 @@ func_install_dependencies(){
     echo "Installing LuaSocket and LuaSec"
     echo "-------------------------------"
     #luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasec  # install luasec to install inspect via https
+    luarocks-5.2 install --only-server=/usr/src/rocks luasocket-3.1.0-1  #install luasec to install inspect via https
     luarocks-5.2 install --only-server=/usr/src/rocks luasec-0.9-1  #install luasec to install inspect via https
     echo "---------------------"
     echo "Installing LuaLogging"
