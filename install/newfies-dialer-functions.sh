@@ -184,6 +184,9 @@ func_install_dependencies(){
             #This code will need to be uncommented when it is ported to Stretch
             echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
             wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add -
+            
+            #refresh apt to include the repository that was just added to the sources list
+            apt-get update
 
             export LANGUAGE=en_US.UTF-8
             export LANG=en_US.UTF-8
@@ -202,7 +205,7 @@ func_install_dependencies(){
             #PostgreSQL 9.4 has been removed from all repositories so we need to install version 16
             #Install Postgresql
             apt-get -y install libpq-dev
-            apt-get -y install postgresql-16 postgresql-contrib-16
+            apt-get -y install postgresql-16 #postgresql-contrib-16
             pg_createcluster 16 main --start
             /etc/init.d/postgresql start
 
@@ -225,8 +228,8 @@ func_install_dependencies(){
             # check to see if nodejs 8.x is installed
             chk2=`nodejs --version`
 
-            if [ $chk2 != "v18.19.1" ]; then
-                echo "Invalid nodejs version! Must be >= 18.19.1"
+            if [ $chk2 != "v18.20.0" ]; then
+                echo "Invalid nodejs version! Must be >= 18.20.0"
                 exit 1
             fi
 
