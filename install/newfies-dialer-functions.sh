@@ -350,20 +350,20 @@ func_install_dependencies(){
         ;;
     esac
 
+    echo "-------------------------------"
+    echo "Installing LuaSocket and LuaSec"
+    echo "-------------------------------"
     #Let's set up the directory/folder environment to properly install luasec so we can install the other lua processed needed
     cd /usr/src/luarocks
     #Clone the luasec project and update the Makefile to use lua 5.2
     git clone https://github.com/lunarmodules/luasec.git
     cd luasec
     sed '/s5.1/5.2' Masterfile
-    sed '/s-I\/usr\/include/-I\/usr\/include\/lua5.2\/' Masterfile 
+    sed '/s-I\/usr\/include/-I\/usr\/include\/lua5.2\/' Masterfile
+    make linux
+    make install
 
     #Install Lua dependencies
-    echo "-------------------------------"
-    echo "Installing LuaSocket and LuaSec"
-    echo "-------------------------------"
-    #luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasec  # install luasec to install inspect via https
-    luarocks-5.2 install --only-server=/usr/src/rocks luasec  #install luasec to install inspect via https
     echo "---------------------"
     echo "Installing LuaLogging"
     echo "---------------------"
