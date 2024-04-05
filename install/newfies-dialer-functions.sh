@@ -350,51 +350,56 @@ func_install_dependencies(){
         ;;
     esac
 
-    #Need to find a way to include the lua rocks for the items below and store them in the git repository
-    #because there is no longer a source to download them from.
+    #Let's set up the directory/folder environment to properly install luasec so we can install the other lua processed needed
+    cd /usr/src/luarocks
+    #Clone the luasec project and update the Makefile to use lua 5.2
+    git clone https://github.com/lunarmodules/luasec.git
+    cd luasec
+    sed '/s5.1/5.2' Masterfile
+    sed '/s-I\/usr\/include/-I\/usr\/include\/lua5.2\/' Masterfile 
+
     #Install Lua dependencies
     echo "-------------------------------"
     echo "Installing LuaSocket and LuaSec"
     echo "-------------------------------"
     #luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luasec  # install luasec to install inspect via https
-    luarocks-5.2 install --only-server=/usr/src/rocks luasocket-3.1.0-1  #install luasec to install inspect via https
-    luarocks-5.2 install --only-server=/usr/src/rocks luasec-0.9-1  #install luasec to install inspect via https
+    luarocks-5.2 install --only-server=/usr/src/rocks luasec  #install luasec to install inspect via https
     echo "---------------------"
     echo "Installing LuaLogging"
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lualogging 1.3.0-1
+    luarocks-5.2 install lualogging 1.3.0-1
     echo "---------------------"
     echo "Installing Loop"
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks loop 2.3beta-1
+    luarocks-5.2 install loop 2.3beta-1
     echo "---------------------"
     echo "Installing md5       "
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks md5 1.2-1
+    luarocks-5.2 install md5 1.2-1
     echo "------------------------"
     echo "Installing LuaFilesystem"
     echo "------------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luafilesystem 1.6.2-2
+    luarocks-5.2 install luafilesystem 1.6.2-2
     echo "---------------------"
     echo "Installing Lunit     "
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lunit 0.5-1
+    luarocks-5.2 install lunit 0.5-1
     echo "---------------------"
     echo "Installing Lpeg      "
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks lpeg 0.12-1
+    luarocks-5.2 install lpeg 0.12-1
     echo "---------------------"
     echo "Installing Luajson   "
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks luajson 1.3.2-1
+    luarocks-5.2 install luajson 1.3.2-1
     echo "---------------------"
     echo "Installing Inspect   "
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks inspect 2.0-1
+    luarocks-5.2 install inspect 2.0-1
     echo "---------------------"
     echo "Installing redis-lua "
     echo "---------------------"
-    luarocks-5.2 install --only-server=http://luarocks.logiceditor.com/rocks redis-lua 2.0.4-1
+    luarocks-5.2 install redis-lua 2.0.4-1
 
     #luarocks-5.2 install lua-cmsgpack
     cd /usr/src/
