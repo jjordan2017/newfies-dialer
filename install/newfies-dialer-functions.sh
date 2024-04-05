@@ -359,7 +359,7 @@ func_install_dependencies(){
     git clone https://github.com/lunarmodules/luasec.git
     cd luasec
     sed 's/5.1/5.2' Masterfile
-    sed 's/-I\/usr\/include/-I\/usr\/include\/lua5.2\/' Masterfile
+    sed 's/-I\/usr\/include/-I\/usr\/include\/lua5.2' Masterfile
     make linux
     make install
 
