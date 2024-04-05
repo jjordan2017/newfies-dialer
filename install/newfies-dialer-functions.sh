@@ -358,8 +358,8 @@ func_install_dependencies(){
     #Clone the luasec project and update the Makefile to use lua 5.2
     git clone https://github.com/lunarmodules/luasec.git
     cd luasec
-    sed 's/5.1/5.2' Masterfile
-    sed 's/-I\/usr\/include/-I\/usr\/include\/lua5.2' Masterfile
+    sed -i 's/5.1/5.2/' Makefile
+    sed -i 's/-I\/usr\/include/-I\/usr\/include\/lua5.2/' Makefile
     make linux
     make install
 
