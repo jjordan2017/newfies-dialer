@@ -228,10 +228,10 @@ func_install_dependencies(){
             # check to see if nodejs 8.x is installed
             chk2=`nodejs --version`
 
-            if [ $chk2 != "v18.20.0" ]; then
-                echo "Invalid nodejs version! Must be >= 18.20.0"
-                exit 1
-            fi
+            #if [ $chk2 != "v18.20.0" ]; then
+            #    echo "Invalid nodejs version! Must be >= 18.20.0"
+            #    exit 1
+            #fi
 
             # cd /usr/src/ ; git clone https://github.com/joyent/node.git
             # # 'git tag' shows all available versions: select the latest stable.
