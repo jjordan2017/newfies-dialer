@@ -420,13 +420,20 @@ func_install_dependencies(){
     #add cURL.so to lua libs
     cp cURL.so /usr/local/lib/lua/5.2/
 
+    #We need to remove EXTERNALLY-MANAGED from the python3.11 so we can install using pip
+    cd/usr/lib/python3.11
+    sudo rm EXTERNALLY-MANAGED
+    
     #echo ""
-    #echo "easy_install -U setuptools pip distribute"
-    #easy_install -U setuptools pip distribute
+    #echo "installing Python2.7"
+    sudo apt install python2.7
 
     # As Jessie is deprecated we need to use a specific version of pip
     echo "Installing pip v20.3.4"
-    pip install pip==20.3.4
+    #pip install pip==20.3.4
+    cd /usr/src
+    wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+    sudo python2.7 get-pip.py
 
     # make sure pip is not hashed to /usr/bin/pip where 1.5.6 is installed
     echo "setting up pip to use the correct directory..."
