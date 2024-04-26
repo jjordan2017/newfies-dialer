@@ -423,7 +423,7 @@ func_install_dependencies(){
     #We need to remove EXTERNALLY-MANAGED from the python3.11 so we can install using pip
     cd/usr/lib/python3.11
     sudo rm EXTERNALLY-MANAGED
-    
+
     #echo ""
     #echo "installing Python2.7"
     sudo apt install python2.7
@@ -441,10 +441,10 @@ func_install_dependencies(){
     hash -d pip
 
     echo "easy_install -U setuptools distribute"
-    pip install -U setuptools
+    pip2 install -U setuptools
 
     echo "installing distribute"
-    pip install distribute
+    pip2 install distribute
 
     # install Bower
     npm install -g bower
@@ -469,12 +469,12 @@ func_setup_virtualenv() {
         'CENTOS')
             SCRIPT_VIRTUALENVWRAPPER="/usr/bin/virtualenvwrapper.sh"
             #Upgrade Setuptools
-            pip install setuptools --no-use-wheel --upgrade
+            pip2 install setuptools --no-use-wheel --upgrade
         ;;
     esac
 
-    pip install virtualenv
-    pip install virtualenvwrapper
+    pip2 install virtualenv
+    pip2 install virtualenvwrapper
 
     # Enable virtualenvwrapper
     chk=`grep "virtualenvwrapper" ~/.bashrc|wc -l`
@@ -565,30 +565,30 @@ func_install_pip_deps(){
     echo "func_install_pip_deps..."
 
     #Upgrade pip to latest (1.5)
-    pip install pip --upgrade
+    pip2 install pip --upgrade
 
     #pip now only installs stable versions by default, so we need to use --pre option
-    pip install --pre pytz
+    pip2 install --pre pytz
     #For python 2.6 only
-    pip install importlib
+    pip2 install importlib
 
     echo "Install Basic requirements..."
     for line in $(cat /usr/src/newfies-dialer/requirements/basic.txt | grep -v \#)
     do
         echo "pip install $line"
-        pip install $line
+        pip2 install $line
     done
     echo "Install Django requirements..."
     for line in $(cat /usr/src/newfies-dialer/requirements/django.txt | grep -v \#)
     do
         echo "pip install $line"
-        pip install $line #--allow-all-external --allow-unverified django-admin-tools
+        pip2 install $line #--allow-all-external --allow-unverified django-admin-tools
     done
     echo "Install Test requirements..."
     for line in $(cat /usr/src/newfies-dialer/requirements/test.txt | grep -v \#)
     do
         echo "pip install $line"
-        pip install $line
+        pip2 install $line
     done
 
     #Install Python ESL / this needs to be done within the virtualenv
@@ -601,7 +601,7 @@ func_install_pip_deps(){
     echo "**********"
     echo "PIP Freeze"
     echo "**********"
-    pip freeze
+    pip2 freeze
 }
 
 
