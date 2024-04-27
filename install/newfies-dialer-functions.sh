@@ -425,8 +425,10 @@ func_install_dependencies(){
     sudo rm EXTERNALLY-MANAGED
 
     #echo ""
-    #echo "installing Python2.7"
+    #echo "installing Python2.7" and make it the default version
     sudo apt install python2.7
+    sudo mv /usr/bin/python /usr/bin/python3
+    sudo ln -s /usr/bin/python2.7 /usr/bin/python
 
     # As Jessie is deprecated we need to use a specific version of pip
     echo "Installing pip v20.3.4"
