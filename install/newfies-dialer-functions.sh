@@ -182,8 +182,8 @@ func_install_dependencies(){
             #fi
             #Used by PostgreSQL
             #This code will need to be uncommented when it is ported to Stretch
+            curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
             echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIANCODE-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-            wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc|apt-key add -
             
             #refresh apt to include the repository that was just added to the sources list
             apt-get update
@@ -205,8 +205,8 @@ func_install_dependencies(){
             #PostgreSQL 9.4 has been removed from all repositories so we need to install version 16
             #Install Postgresql
             apt-get -y install libpq-dev
-            apt-get -y install postgresql-16 #postgresql-contrib-16
-            pg_createcluster 16 main --start
+            apt-get -y install postgresql-9.6
+            pg_createcluster 9.6 main --start
             /etc/init.d/postgresql start
 
             apt-get -y install software-properties-common #python-software-properties is obsoleted
