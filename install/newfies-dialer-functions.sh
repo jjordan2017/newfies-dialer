@@ -421,7 +421,7 @@ func_install_dependencies(){
     cp cURL.so /usr/local/lib/lua/5.2/
 
     #We need to remove EXTERNALLY-MANAGED from the python3.11 so we can install using pip
-    cd/usr/lib/python3.11
+    cd /usr/lib/python3.11
     sudo rm EXTERNALLY-MANAGED
 
     #echo ""
