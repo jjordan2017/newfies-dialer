@@ -83,7 +83,7 @@ func_install_deps() {
             apt-get -y install unzip zip sox sqlite3 ncftp nmap
             apt-get -y install autoconf2.64 automake autotools-dev binutils bison build-essential cpp curl flex gcc libaudiofile-dev libc6-dev libexpat1 libexpat1-dev mcrypt libmcrypt-dev libnewt-dev libpopt-dev libsctp-dev libx11-dev libxml2 libxml2-dev lksctp-tools lynx m4 openssl ssl-cert zlib1g-dev
 
-            apt-get -y install autoconf automake devscripts gawk g++ git-core 'libjpeg-dev|libjpeg62-turbo-dev' libncurses5-dev 'libtool-bin|libtool' make python-dev-is-python3 gawk pkg-config libtiff5-dev libperl-dev libgdbm-dev libdb-dev gettext libssl-dev libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev libmp3lame-dev
+            apt-get -y install autoconf automake devscripts gawk g++ git-core 'libjpeg-dev|libjpeg62-turbo-dev' libncurses5-dev 'libtool-bin|libtool' make python-dev-is-python3 gawk pkg-config libtiff5-dev libperl-dev libgdbm-dev libdb-dev gettext libssl-dev libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev libmp3lame-dev libspandsp-dev
 
             if [ $DEBIANCODE != "bullseye" ]; then
                 #DEBIAN11
