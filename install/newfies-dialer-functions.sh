@@ -355,6 +355,10 @@ func_install_dependencies(){
     echo "-------------------------------"
     #Let's set up the directory/folder environment to properly install luasec so we can install the other lua processed needed
     cd /usr/src/luarocks
+
+    #install the libssl-dev package so luasec can install properly
+    apt -y install libssl-dev
+
     #Clone the luasec project and update the Makefile to use lua 5.2
     git clone https://github.com/lunarmodules/luasec.git
     cd luasec
