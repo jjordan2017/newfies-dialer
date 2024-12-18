@@ -340,16 +340,6 @@ func_install_dependencies(){
         ;;
     esac
 
-    #Prepare settings for installation
-    case $DIST in
-        'DEBIAN')
-            luarocks-5.2 install luasql-postgres PGSQL_INCDIR=/usr/include/postgresql/
-        ;;
-        'CENTOS')
-            luarocks-5.2 install luasql-postgres PGSQL_DIR=/usr/pgsql-9.1/
-        ;;
-    esac
-
     echo "-------------------------------"
     echo "Installing LuaSocket and LuaSec"
     echo "-------------------------------"
@@ -367,7 +357,17 @@ func_install_dependencies(){
     make linux
     make install
 
-    #Install Lua dependencies
+    #Prepare settings for installation
+    case $DIST in
+        'DEBIAN')
+            luarocks-5.2 install luasql-postgres PGSQL_INCDIR=/usr/include/postgresql/
+        ;;
+        'CENTOS')
+            luarocks-5.2 install luasql-postgres PGSQL_DIR=/usr/pgsql-9.1/
+        ;;
+    esac
+
+   #Install Lua dependencies
     echo "---------------------"
     echo "Installing LuaLogging"
     echo "---------------------"
