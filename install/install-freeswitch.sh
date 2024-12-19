@@ -140,7 +140,7 @@ func_install_fs_sources() {
 
     #mod-sofia
     cd /usr/local/src
-    clone https://github.com/freeswitch/sofia-sip.git /usr/local/src/sofia-sip
+    git clone https://github.com/freeswitch/sofia-sip.git /usr/local/src/sofia-sip
     cd /usr/local/src/sofia-sip
     ./bootstrap.sh 
     ./configure
