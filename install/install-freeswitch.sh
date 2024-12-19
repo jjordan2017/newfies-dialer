@@ -140,14 +140,14 @@ func_install_fs_sources() {
 
     #mod-sofia
     cd /usr/local/src
-    clone https://github.com/freeswitch/sofia-sip /usr/local/src/sofia-sip
+    clone https://github.com/freeswitch/sofia-sip.git /usr/local/src/sofia-sip
     cd /usr/local/src/sofia-sip
     ./bootstrap.sh 
     ./configure
     make && make install
 
     #install spandsp
-    git clone https://github.com/freeswitch/spandsp /usr/local/src/spandsp
+    git clone https://github.com/freeswitch/spandsp.git /usr/local/src/spandsp
     cd /usr/local/src/spandsp
     ./bootstrap.sh
     sed -i "s/int r = V18_MODE_5BIT_4545;/int r = V18_MODE_WEITBRECHT_5BIT_4545;" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
