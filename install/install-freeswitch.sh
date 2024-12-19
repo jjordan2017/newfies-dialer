@@ -84,6 +84,7 @@ func_install_deps() {
             apt-get -y install autoconf2.64 automake autotools-dev binutils bison build-essential cpp curl flex gcc libaudiofile-dev libc6-dev libexpat1 libexpat1-dev mcrypt libmcrypt-dev libnewt-dev libpopt-dev libsctp-dev libx11-dev libxml2 libxml2-dev lksctp-tools lynx m4 openssl ssl-cert zlib1g-dev
 
             apt-get -y install autoconf automake devscripts gawk g++ git-core 'libjpeg-dev|libjpeg62-turbo-dev' libncurses5-dev 'libtool-bin|libtool' make python-dev-is-python3 gawk pkg-config libtiff5-dev libperl-dev libgdbm-dev libdb-dev gettext libssl-dev libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev libsqlite3-dev libedit-dev libldns-dev libpq-dev libmp3lame-dev libspandsp-dev
+            apt-get -y install uuid-dev cmake yasm libavformat-dev libswscale-dev libopus-dev libshoud3-dev libmpg123-dev libsndfile-dev
 
             if [ $DEBIANCODE != "bullseye" ]; then
                 #DEBIAN11
@@ -121,6 +122,41 @@ func_install_fs_sources() {
         echo "adding user freeswitch..."
         /usr/sbin/useradd -r -c "freeswitch" -g freeswitch freeswitch
     fi
+
+    #Download pre-requisites and libaries needed to install freeswitch
+    #libks
+    cd /usr/local/src
+    git clone https://github.com/signalwire/libks.git  /usr/local/src/libks
+    cd /usr/local/src/libks
+    cmake .
+    make && make install
+
+    #signalwire-c
+    cd /usr/local/src
+    git clone https://github.com/signalwire/signalwire-c.git /usr/local/src/signalwire-c
+    cd /usr/local/src/signalwire-c
+    cmake .
+    make && make install
+
+    #mod-sofia
+    cd /usr/local/src
+    clone https://github.com/freeswitch/sofia-sip /usr/local/src/sofia-sip
+    cd /usr/local/src/sofia-sip
+    ./bootstrap.sh 
+    ./configure
+    make && make install
+
+    #install spandsp
+    git clone https://github.com/freeswitch/spandsp /usr/local/src/spandsp
+    cd /usr/local/src/spandsp
+    ./bootstrap.sh
+    sed -i "s/int r = V18_MODE_5BIT_4545;/int r = V18_MODE_WEITBRECHT_5BIT_4545;" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt);/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt, NULL, NULL);" "/usr/src/freeswitch/src/mod/applications/mod/spandsp/mod_spandsp_dsp.c"
+    ./configure
+    ./make
+    ./make install
 
     #Download and install FS from git repository.
     cd $FS_BASE_PATH
