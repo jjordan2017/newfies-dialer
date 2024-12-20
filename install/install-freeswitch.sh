@@ -91,9 +91,9 @@ func_install_deps() {
                 apt-get -y install libgnutls-dev libtiff-dev libtiff4
             else
                 #DEBIAN12
-                apt-get -y install libgnutls28-dev libtiff5-dev libtiff5
+                apt-get -y install libgnutls28-dev libtiff5-dev
             fi
-            apt-get -y install libvorbis0a libogg0 libogg-dev libvorbis-dev
+            
             apt-get -y install flite flite1-dev
             apt-get -y install unixodbc-dev odbc-postgresql
             ;;
@@ -147,13 +147,10 @@ func_install_fs_sources() {
     make && make install
 
     #install spandsp
+    cd /usr/local/src
     git clone https://github.com/freeswitch/spandsp.git /usr/local/src/spandsp
     cd /usr/local/src/spandsp
     ./bootstrap.sh
-    sed -i "s/int r = V18_MODE_5BIT_4545;/int r = V18_MODE_WEITBRECHT_5BIT_4545;/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
-    sed -i "s/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
-    sed -i "s/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
-    sed -i "s/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt);/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt, NULL, NULL);"/ "/usr/src/freeswitch/src/mod/applications/mod/spandsp/mod_spandsp_dsp.c"
     ./configure
     ./make
     ./make install
@@ -178,6 +175,43 @@ func_install_fs_sources() {
     # mkswap /root/fakeswap
     # swapon /root/fakeswap
 
+    ./configure --without-pgsql --prefix=/usr/local/freeswitch --sysconfdir=/etc/freeswitch/
+    [ -f modules.conf ] && cp modules.conf modules.conf.bak
+    sed -i -e \
+    "s/#applications\/mod_curl/applications\/mod_curl/g" \
+    -e "s/#applications\/mod_avmd/applications\/mod_avmd/g" \
+    -e "s/#asr_tts\/mod_flite/asr_tts\/mod_flite/g" \
+    -e "s/#asr_tts\/mod_tts_commandline/asr_tts\/mod_tts_commandline/g" \
+    -e "s/#formats\/mod_shout/formats\/mod_shout/g" \
+    -e "s/#endpoints\/mod_dingaling/endpoints\/mod_dingaling/g" \
+    -e "s/#formats\/mod_shell_stream/formats\/mod_shell_stream/g" \
+    -e "s/#say\/mod_say_de/say\/mod_say_de/g" \
+    -e "s/#say\/mod_say_es/say\/mod_say_es/g" \
+    -e "s/#say\/mod_say_fr/say\/mod_say_fr/g" \
+    -e "s/#say\/mod_say_it/say\/mod_say_it/g" \
+    -e "s/#say\/mod_say_nl/say\/mod_say_nl/g" \
+    -e "s/#say\/mod_say_ru/say\/mod_say_ru/g" \
+    -e "s/#say\/mod_say_zh/say\/mod_say_zh/g" \
+    -e "s/#say\/mod_say_hu/say\/mod_say_hu/g" \
+    -e "s/#say\/mod_say_th/say\/mod_say_th/g" \
+    -e "s/#xml_int\/mod_xml_cdr/xml_int\/mod_xml_cdr/g" \
+    modules.conf
+    make && make install && make sounds-install && make moh-install
+
+    #The inital freeswitch build will fail when compiling mod_spansp.
+    #Change the mod_spandsp_dsp.c file to fix this issue and recompile
+    #the mod with these changes.
+    sed -i "s/int r = V18_MODE_5BIT_4545;/int r = V18_MODE_WEITBRECHT_5BIT_4545;/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt);/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    
+    cd /usr/local/src/spandsp
+    ./configure
+    ./make
+    ./make install
+    
+    #Recomile freeswitch
     ./configure --without-pgsql --prefix=/usr/local/freeswitch --sysconfdir=/etc/freeswitch/
     [ -f modules.conf ] && cp modules.conf modules.conf.bak
     sed -i -e \
