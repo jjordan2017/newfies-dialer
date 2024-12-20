@@ -152,8 +152,7 @@ func_install_fs_sources() {
     cd /usr/local/src/spandsp
     ./bootstrap.sh
     ./configure
-    ./make
-    ./make install
+    make && make install
 
     #Download and install FS from git repository.
     cd $FS_BASE_PATH
@@ -206,10 +205,10 @@ func_install_fs_sources() {
     sed -i "s/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
     sed -i "s/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt);/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
     
+    #rebuild spandsp module
     cd /usr/local/src/spandsp
     ./configure
-    ./make
-    ./make install
+    make && make install
     
     #Recomile freeswitch
     ./configure --without-pgsql --prefix=/usr/local/freeswitch --sysconfdir=/etc/freeswitch/
