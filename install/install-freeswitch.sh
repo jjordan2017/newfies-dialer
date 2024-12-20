@@ -211,6 +211,7 @@ func_install_fs_sources() {
     make && make install
     
     #Recomile freeswitch
+    cd /$FS_BASE_PATH/freeswitch
     ./configure --without-pgsql --prefix=/usr/local/freeswitch --sysconfdir=/etc/freeswitch/
     [ -f modules.conf ] && cp modules.conf modules.conf.bak
     sed -i -e \
