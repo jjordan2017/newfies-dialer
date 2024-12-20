@@ -150,10 +150,10 @@ func_install_fs_sources() {
     git clone https://github.com/freeswitch/spandsp.git /usr/local/src/spandsp
     cd /usr/local/src/spandsp
     ./bootstrap.sh
-    sed -i "s/int r = V18_MODE_5BIT_4545;/int r = V18_MODE_WEITBRECHT_5BIT_4545;" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
-    sed -i "s/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
-    sed -i "s/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
-    sed -i "s/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt);/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt, NULL, NULL);" "/usr/src/freeswitch/src/mod/applications/mod/spandsp/mod_spandsp_dsp.c"
+    sed -i "s/int r = V18_MODE_5BIT_4545;/int r = V18_MODE_WEITBRECHT_5BIT_4545;/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL);/pvt->tdd_state = v18_init(NULL, TRUE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, NULL, NULL, NULL);/" "/usr/src/freeswitch/src/mod/applications/mod_spandsp/mod_spandsp_dsp.c"
+    sed -i "s/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt);/pvt->tdd_state = v18_init(NULL, FALSE, get_v18_mode(session), V18_AUTOMODING_GLOBAL, put_text_msg, pvt, NULL, NULL);"/ "/usr/src/freeswitch/src/mod/applications/mod/spandsp/mod_spandsp_dsp.c"
     ./configure
     ./make
     ./make install
